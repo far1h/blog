@@ -15,12 +15,12 @@ const Footer = () => {
             >
               Read Documentation
             </a> */}
-            <a
+            {/* <a
               href={`https://github.com/far1h/my_blog`}
               className="mx-3 font-bold hover:underline"
             >
               View on GitHub
-            </a>
+            </a> */}
           </div>
         </div>
       </div>
