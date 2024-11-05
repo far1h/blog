@@ -2,11 +2,12 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import Search from './search';
 import { FaSun, FaMoon } from 'react-icons/fa';
+import { useTheme } from '../contexts/ThemeContext';
 
 const Header = () => {
   const [top, setTop] = useState(true);
   const [searching, setSearching] = useState(false);
-  const [theme, setTheme] = useState('light');
+  const { theme, toggleTheme } = useTheme();
 
   // Detect whether user has scrolled the page down by 10px
   useEffect(() => {
@@ -16,31 +17,6 @@ const Header = () => {
     window.addEventListener('scroll', scrollHandler);
     return () => window.removeEventListener('scroll', scrollHandler);
   }, [top]);
-
-  // Theme toggle function
-  const toggleTheme = () => {
-    if (theme === 'light') {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-      setTheme('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-      setTheme('light');
-    }
-  };
-
-  // Check for user's saved theme preference on mount
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    if (savedTheme === 'dark') {
-      document.documentElement.classList.add('dark');
-      setTheme('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-      setTheme('light');
-    }
-  }, []);
 
   return (
     <header className={`fixed w-full z-30 bg-white dark:bg-gray-900 text-black dark:text-white transition duration-300 ease-in-out ${!top && 'bg-white dark:bg-gray-800 backdrop-blur-sm shadow-lg'}`}>
