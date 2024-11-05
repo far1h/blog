@@ -1,28 +1,64 @@
-import Link from 'next/link'
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import Search from './search';
+import { FaSun, FaMoon } from 'react-icons/fa';
 
 const Header = () => {
   const [top, setTop] = useState(true);
   const [searching, setSearching] = useState(false);
-  // detect whether user has scrolled the page down by 10px 
+  const [theme, setTheme] = useState('light');
+
+  // Detect whether user has scrolled the page down by 10px
   useEffect(() => {
     const scrollHandler = () => {
-      window.pageYOffset > 10 ? setTop(false) : setTop(true)
+      window.pageYOffset > 10 ? setTop(false) : setTop(true);
     };
     window.addEventListener('scroll', scrollHandler);
     return () => window.removeEventListener('scroll', scrollHandler);
-  }, [top]);  
+  }, [top]);
+
+  // Theme toggle function
+  const toggleTheme = () => {
+    if (theme === 'light') {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+      setTheme('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+      setTheme('light');
+    }
+  };
+
+  // Check for user's saved theme preference on mount
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    if (savedTheme === 'dark') {
+      document.documentElement.classList.add('dark');
+      setTheme('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      setTheme('light');
+    }
+  }, []);
 
   return (
-    <header className={`fixed w-full z-30 md:bg-white/90 transition duration-300 ease-in-out ${!top && 'bg-white backdrop-blur-sm shadow-lg'}`}>
+    <header className={`fixed w-full z-30 bg-white dark:bg-gray-900 text-black dark:text-white transition duration-300 ease-in-out ${!top && 'bg-white dark:bg-gray-800 backdrop-blur-sm shadow-lg'}`}>
       <div className="max-w-6xl mx-auto px-5 sm:px-6">
         <div className="flex items-center justify-between h-16 md:h-20">
+          {/* Theme Toggle Icon */}
+          <button onClick={toggleTheme} aria-label="Toggle Dark Mode" className="mr-4 text-2xl">
+            {theme === 'light' ? <FaSun className="text-yellow-500" /> : <FaMoon className="text-blue-400" />}
+          </button>
+
+          {/* Blog Title */}
           <h2 className="shrink-0 mr-4 text-2xl font-bold tracking-tight md:tracking-tighter leading-tight">
             <Link href="/" className="block hover:underline" aria-label="My Blog">
               Mo's Blog.
             </Link>
           </h2>
+
+          {/* Search Button */}
           <ul className="flex grow justify-end flex-wrap items-center">
             <li>
               <button className="w-4 h-4 my-auto mx-2 border-black" aria-label="Search" onClick={() => setSearching(!searching)} disabled={searching}>
@@ -32,12 +68,13 @@ const Header = () => {
               </button>
             </li>
           </ul>
-          {/* Search */}
-          <Search visible={searching} setVisible={setSearching}/>
+
+          {/* Search Component */}
+          <Search visible={searching} setVisible={setSearching} />
         </div>
       </div>
     </header>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

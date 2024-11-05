@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: 'class', // Enable dark mode using the 'class' strategy
   content: ['./components/**/*.tsx', './pages/**/*.tsx'],
   theme: {
     fontFamily: {
