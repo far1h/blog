@@ -7,7 +7,7 @@ import { ThemeProvider } from '../components/contexts/ThemeContext';
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider>
-      <DefaultSeo {...SEO} />
+      {/* <DefaultSeo {...SEO} /> */}
       <Component {...pageProps} />
     </ThemeProvider>
   );
