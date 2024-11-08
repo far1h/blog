@@ -53,7 +53,7 @@ const PostPreview = ({
       <div className="block shrink-0 ml-6">
         <svg
           className={`w-4 h-4 fill-current ${
-            theme === "dark" ? "text-blue-400" : "text-blue-600"
+            theme === "dark" ? "text-gray-500" : "text-gray-800"
           }`}
           viewBox="0 0 16 16"
           xmlns="http://www.w3.org/2000/svg"
