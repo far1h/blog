@@ -22,7 +22,7 @@ function Search({ visible, setVisible }) {
   const inputRef = useRef(null);
   const containerRef = useRef(null);
   const [searchResults, setSearchResults] = useState([]);
-  const { theme } = useTheme();
+  const { theme } = useTheme(); // Use theme context
 
   // Focus input when search is visible
   useEffect(() => {
@@ -34,10 +34,10 @@ function Search({ visible, setVisible }) {
   // Keyboard shortcuts for toggling search
   useEffect(() => {
     const handleKeydown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
         setVisible(true);
       }
-      if (e.key === 'Escape') {
+      if (e.key === "Escape") {
         setVisible(false);
       }
     };
@@ -68,7 +68,7 @@ function Search({ visible, setVisible }) {
     <div
       className={`absolute top-full h-screen pb-16 z-20 left-0 w-full overflow-y-auto overscroll-none overflow-x-hidden ${
         visible ? "block" : "hidden"
-      } ${theme === 'dark' ? 'bg-gray-900/95 text-white' : 'bg-white/95 text-gray-800'}`}
+      } ${theme === "dark" ? "bg-gray-900/95 text-white" : "bg-white/95 text-gray-800"}`}
     >
       <div ref={containerRef} className="max-w-4xl mx-auto flex flex-wrap mt-5 px-5">
         {/* Search Bar */}
@@ -80,7 +80,7 @@ function Search({ visible, setVisible }) {
               id="search"
               type="search"
               className={`form-input w-full px-3 py-2 pl-10 ${
-                theme === 'dark' ? 'bg-gray-800 text-white placeholder-gray-400' : 'text-gray-800'
+                theme === "dark" ? "bg-gray-800 text-white placeholder-gray-400" : "text-gray-800"
               }`}
               placeholder="Search my blog"
               onChange={handleChangeInput}
@@ -106,6 +106,7 @@ function Search({ visible, setVisible }) {
             slug={res.item.slug}
             date={res.item.date}
             author={res.item.author}
+            theme={theme} // Pass theme prop
           />
         ))}
       </div>
