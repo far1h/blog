@@ -29,7 +29,7 @@ function Pagination({ currPage, maxPage }: Props) {
   const lightModeClass = `bg-white  text-gray-500 hover:bg-gray-100 hover:text-gray-700`;
   const darkModeClass = `bg-gray-800 border-gray-600 text-gray-400 hover:bg-gray-700 hover:text-gray-300`;
 
-  const currentClass = `border-blue-500 bg-blue-100 text-blue-700`;
+  const currentClass = `border-blue-200 bg-blue-100 text-blue-700`;
 
   return (
     <div className="flex justify-center mb-10">
