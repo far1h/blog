@@ -55,12 +55,12 @@ function PostSingle({
 
   {/* Sidebar */}
   <aside className="relative lg:block lg:w-72 lg:ml-20 shrink-0">
-    <div>
-      <h4 className="text-lg font-bold leading-snug tracking-tight mb-4">Backlinks</h4>
+  {Object.keys(backlinks).length > 0 && <div>
+    <h4 className="text-lg font-bold leading-snug tracking-tight mb-4">Backlinks</h4>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4">
-        {Object.keys(backlinks).length > 0 && <Backlinks backlinks={backlinks} />}
+        {<Backlinks backlinks={backlinks} />}
       </div>
-    </div>
+    </div>}
   </aside>
               </div>
 
