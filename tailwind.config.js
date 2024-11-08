@@ -7,6 +7,9 @@ module.exports = {
       'sans': '-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji"'
     },
     extend: {
+      maxWidth: {
+        'markdown': '42rem', // Adjust width to your preference
+      },
       colors: {
         'accent-1': '#FAFAFA',
         'accent-2': '#EAEAEA',
