@@ -31,7 +31,7 @@ export default function Post({ post, backlinks }: Props) {
         <h1>Loading…</h1>
       ) : (
         <Layout>
-          <NextSeo
+          {/* <NextSeo
             title={post.title}
             description={description}
             openGraph={{
@@ -45,7 +45,7 @@ export default function Post({ post, backlinks }: Props) {
                 type: null
               }]
             }}
-          />
+          /> */}
           <PostSingle
             title={post.title}
             content={post.content}
