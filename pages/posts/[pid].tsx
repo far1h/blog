@@ -60,6 +60,7 @@ export async function getStaticPaths() {
   const paths = []
   let pid = 1;
   for (let i = 0; i < posts.length; i += pageSize) {
+    if (pid === 1) continue; // Skip pid=1, as it's handled by `index.tsx`
     paths.push({
       params: {
         pid: pid.toString(),
