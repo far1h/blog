@@ -40,27 +40,28 @@ function PostSingle({
               {/* Article content */}
               <div className="lg:flex lg:justify-between" data-sticky-container>
 
-                {/* Main content */}
-                <div className="markdown-container max-w-2xl mx-auto px-4 sm:px-6">
-                  {author || date ? (
-                    <>
-                      <PostMeta author={author} date={date} />
-                      <hr className="w-16 h-px pt-px bg-gray-200 border-0 my-6" />
-                    </>
-                  ) : null}
 
-                  <PostBody content={content} />
-                </div>
+  {/* Main content */}
+  <div className="markdown-container max-w-2xl mx-auto px-4 sm:px-6 pb-8">
+    {author || date ? (
+      <>
+        <PostMeta author={author} date={date} />
+        <hr className="w-16 h-px pt-px bg-gray-200 border-0 my-6" />
+      </>
+    ) : null}
 
-                {/* Sidebar */}
-                <aside className="relative lg:block lg:w-72 lg:ml-20 shrink-0">
-                  <div>
-                    <h4 className="text-lg font-bold leading-snug tracking-tight mb-4">Backlinks</h4>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4">
-                      {Object.keys(backlinks).length > 0 && <Backlinks backlinks={backlinks} />}
-                    </div>
-                  </div>
-                </aside>
+    <PostBody content={content} />
+  </div>
+
+  {/* Sidebar */}
+  <aside className="relative lg:block lg:w-72 lg:ml-20 shrink-0">
+    <div>
+      <h4 className="text-lg font-bold leading-snug tracking-tight mb-4">Backlinks</h4>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4">
+        {Object.keys(backlinks).length > 0 && <Backlinks backlinks={backlinks} />}
+      </div>
+    </div>
+  </aside>
               </div>
 
             </article>
