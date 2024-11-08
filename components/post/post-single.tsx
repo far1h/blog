@@ -42,7 +42,7 @@ function PostSingle({
 
 
                 {/* Main content */}
-                <div>
+                <div markdown-container max-w-2xl mx-auto px-4>
 
                   {/* Article meta */}
                   {(author || date) && (
