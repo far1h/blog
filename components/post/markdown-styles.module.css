@@ -1217,3 +1217,14 @@
 .markdown-body>*:first-child>.heading-element:first-child {
   margin-top: 0 !important;
 }
+
+/* Custom CSS Added */
+.markdown-body {
+  font-family: inherit; 
+}
+.markdown-body ol {
+  list-style: revert;
+}
+.markdown-body ul {
+  list-style: revert;
+}
