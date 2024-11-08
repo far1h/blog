@@ -19,10 +19,12 @@ const PostPreview = ({
   slug,
   theme,
 }: Props) => {
-  return (
-    <article
-      className={`flex items-center py-4 justify-between w-full border-b ${
-        theme === "dark" ? "border-gray-700" : "border-gray-200"
+  return  (
+    <Link as={`/${slug}`} href="/[...slug]"
+      className={`flex flex-row justify-between items-center duration-300 w-full p-4 rounded-lg cursor-pointer ${
+        theme === "dark"
+          ? "bg-gray-900 hover:bg-gray-800 text-white border-gray-700"
+          : "bg-white hover:bg-slate-100 text-black border-slate-100"
       }`}
     >
       <div>
@@ -32,13 +34,9 @@ const PostPreview = ({
               theme === "dark" ? "text-white" : "text-black"
             }`}
           >
-            <Link
-              as={`/${slug}`}
-              href="/[...slug]"
-              className="hover:underline"
-            >
+            
               {title}
-            </Link>
+
           </h2>
         </header>
         <div
@@ -52,8 +50,7 @@ const PostPreview = ({
           <PostMeta date={date} author={author} />
         </footer>
       </div>
-      <Link as={`/${slug}`} href="/[...slug]" className="block shrink-0 ml-6">
-        <span className="sr-only">Read more</span>
+      <div className="block shrink-0 ml-6">
         <svg
           className={`w-4 h-4 fill-current ${
             theme === "dark" ? "text-blue-400" : "text-blue-600"
@@ -61,11 +58,14 @@ const PostPreview = ({
           viewBox="0 0 16 16"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <path d="M9.3 14.7l-1.4-1.4L12.2 9H0V7h12.2L7.9 2.7l1.4-1.4L16 8z" />
-        </svg>
-      </Link>
-    </article>
-  );
+<path
+                          d="M2.07102 11.3494L0.963068 10.2415L9.2017 1.98864H2.83807L2.85227 0.454545H11.8438V9.46023H10.2955L10.3097 3.09659L2.07102 11.3494Z"
+                          fill="currentColor"
+                        />
+                                </svg>
+      </div>
+    </Link>
+  )
 };
 
 export default PostPreview;
