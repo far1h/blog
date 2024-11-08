@@ -27,7 +27,7 @@ function PostSingle({ title, date, author, content, backlinks }: Props) {
         <div className="pt-32 pb-12 md:pt-40 md:pb-20">
           <div className="max-w-3xl mx-auto lg:max-w-none">
             <article>
-            <BackPage />
+            {/* <BackPage /> */}
               {/* Article header */}
               <header className="max-w-3xl mx-auto mb-20">
                 <h1 className="h1 text-center mb-4 text-6xl">{title}</h1>

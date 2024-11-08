@@ -20,7 +20,7 @@ function PostList({ posts }: Props) {
 
           {/* Page header */}
           <div className="max-w-3xl pb-12 md:pb-20 text-center md:text-left">
-            <h1 className="h1 mb-4">Explore my blog</h1>
+            <h1 className="h1 mb-4 px-4">Explore my blog</h1>
           </div>
 
           {/* Main content */}
@@ -42,7 +42,7 @@ function PostList({ posts }: Props) {
             </div>
 
             {/* Sidebar */}
-            <aside className="relative mt-12 md:mt-0 md:w-64 md:ml-12 lg:ml-20 md:shrink-0">
+            <aside className="pr-4 relative mt-12 md:mt-0 md:w-64 md:ml-12 lg:ml-20 md:shrink-0">
               <PopularPosts />
             </aside>
 
