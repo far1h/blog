@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Author from "../../interfaces/author";
+import PreviewLink from "../misc/preview-link";
 
 export type PopularPostProps = {
     slug: string
@@ -34,9 +35,9 @@ function PopularPosts() {
             </svg>
             <article>
               <h3 className="font-medium mb-1">
-                <Link as={`${post.slug}`} href="[...slug]" className="hover:underline">
+                <PreviewLink href={`${post.slug}`}>
                   {post.title}
-                </Link>
+                </PreviewLink>
               </h3>
               {post.author && (
                 <div className="text-sm text-gray-800">
