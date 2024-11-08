@@ -38,7 +38,7 @@ export default function Home({ posts, pid, maxPid }: Props) {
   return (
     <Layout>
       {/* Hero Section */}
-      <section
+      {/* <section
         className="relative flex flex-col items-center justify-center h-screen text-center bg-gradient-to-b from-blue-500 to-blue-700 text-white">
         <h1 className="text-5xl md:text-6xl font-extrabold mb-4">Welcome to My Blog</h1>
         <p className="text-lg md:text-xl font-medium mb-6">
@@ -50,7 +50,7 @@ export default function Home({ posts, pid, maxPid }: Props) {
         >
           Start Exploring
         </a>
-      </section>
+      </section> */}
 
       {/* Posts Section */}
       <section id="posts">
