@@ -3,9 +3,6 @@ import Author from "../../interfaces/author";
 import Backlinks from "../misc/backlinks";
 import PostBody from "./post-body";
 import PostMeta from "./post-meta";
-import Link from "next/link";
-import { FaArrowLeft } from "react-icons/fa";
-import BackPage from "../misc/backpage";
 
 type Props = {
   title: string;
@@ -21,24 +18,28 @@ type Props = {
 };
 
 function PostSingle({ title, date, author, content, backlinks }: Props) {
+  const hasBacklinks = Object.keys(backlinks).length > 0;
+
   return (
     <section>
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="pt-32 pb-12 md:pt-40 md:pb-20">
           <div className="max-w-3xl mx-auto lg:max-w-none">
             <article>
-            {/* <BackPage /> */}
               {/* Article header */}
               <header className="max-w-3xl mx-auto mb-20">
                 <h1 className="h1 text-center mb-4 text-6xl">{title}</h1>
               </header>
 
               {/* Article content */}
-              <div className="lg:flex lg:justify-between" data-sticky-container>
+              <div
+                className={`lg:flex ${
+                  hasBacklinks ? "lg:justify-between" : "lg:justify-center"
+                }`}
+                data-sticky-container
+              >
                 {/* Main content */}
                 <div className="max-w-2xl pb-8">
-                
-
                   {author || date ? (
                     <>
                       <PostMeta author={author} date={date} />
@@ -50,18 +51,18 @@ function PostSingle({ title, date, author, content, backlinks }: Props) {
                 </div>
 
                 {/* Sidebar */}
-                <aside className="relative lg:block lg:w-72 lg:ml-20 shrink-0">
-                  {Object.keys(backlinks).length > 0 && (
+                {hasBacklinks && (
+                  <aside className="relative lg:block lg:w-72 lg:ml-20 shrink-0">
                     <div>
                       <h4 className="text-lg font-bold leading-snug tracking-tight mb-4">
                         Backlinks
                       </h4>
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4">
-                        {<Backlinks backlinks={backlinks} />}
+                        <Backlinks backlinks={backlinks} />
                       </div>
                     </div>
-                  )}
-                </aside>
+                  </aside>
+                )}
               </div>
             </article>
           </div>
