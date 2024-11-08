@@ -42,7 +42,7 @@ function PostSingle({
 
 
   {/* Main content */}
-  <div className="markdown-container max-w-2xl mx-auto px-4 sm:px-6 pb-8">
+  <div className="markdown-container max-w-2xl px-4 sm:px-6 pb-8">
     {author || date ? (
       <>
         <PostMeta author={author} date={date} />
