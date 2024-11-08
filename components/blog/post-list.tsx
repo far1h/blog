@@ -27,7 +27,7 @@ function PostList({ posts }: Props) {
           <div className="md:flex md:justify-between">
 
             {/* Articles container */}
-            <div className="md:grow -mt-4">
+            <div className="flex-1 md:basis-2/3 -mt-4 overflow-hidden break-words">
               {posts.map((post) => (
                 <PostPreview
                   key={post.slug}
