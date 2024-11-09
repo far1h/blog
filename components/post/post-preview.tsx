@@ -21,7 +21,7 @@ const PostPreview = ({
 }: Props) => {
   return  (
     <Link as={`/${slug}`} href="/[...slug]"
-      className={`flex flex-row justify-between items-center duration-300 w-full p-4 rounded-lg cursor-pointer ${
+      className={`flex flex-row justify-between items-center w-full p-4 rounded-lg cursor-pointer ${
         theme === "dark"
           ? "bg-gray-900 hover:bg-gray-800 text-white border-gray-700"
           : "bg-white hover:bg-slate-100 text-black border-slate-100"

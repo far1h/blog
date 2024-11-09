@@ -19,7 +19,7 @@ const Header = () => {
   }, [top]);
 
   return (
-    <header className={`fixed w-full z-30 bg-white dark:bg-gray-900 text-black dark:text-white transition duration-300 ease-in-out ${!top && 'bg-white dark:bg-gray-800 backdrop-blur-sm shadow-lg'}`}>
+    <header className={`fixed w-full z-30 bg-white dark:bg-gray-900 text-black dark:text-white ${!top && 'bg-white dark:bg-gray-800 backdrop-blur-sm shadow-lg'}`}>
       <div className="max-w-6xl mx-auto px-5 sm:px-6">
         <div className="flex items-center justify-between h-16 md:h-20 px-4">
           {/* Theme Toggle Icon */}
