@@ -10,6 +10,10 @@ export type PopularPostProps = {
 
 const popularPosts: PopularPostProps = [
   {
+    slug: "/web-programming",
+    title: "Web Programming Notes"
+  },
+  {
     slug: "/operating-systems",
     title: "Operating Systems Notes"
   },
