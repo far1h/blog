@@ -52,13 +52,37 @@ function parseFileToObj(pathToObj: string) {
 }
 
 export function getAllPosts(fields: string[] = []) {
-  let files = getFilesRecursively(mdDir, /\.md(?:#[^\)]*)?/);
-  let posts = files
-    .map((slug) => getPostBySlug(slug, fields))
-    // sort posts by date in descending order
-    .sort((post1, post2) => (post1.date > post2.date ? -1 : 1))
-  return posts
+  const files = getFilesRecursively(mdDir, /\.md(?:#[^\)]*)?/);
+  
+  const posts = files
+    .map((slug) => {
+      const post = getPostBySlug(slug, fields);
+      return post;
+    })
+    .sort((post1, post2) => {
+      const date1 = post1.date ? new Date(post1.date) : null;
+      const date2 = post2.date ? new Date(post2.date) : null;
+
+      // If both posts have dates, sort them in descending order
+      if (date1 && date2) {
+        return date2.getTime() - date1.getTime();
+      }
+
+      // If one post has a date and the other doesn't, prioritize the one with a date
+      if (date1 && !date2) {
+        return -1;
+      }
+      if (!date1 && date2) {
+        return 1;
+      }
+
+      // If neither have a date, keep their order
+      return 0;
+    });
+
+  return posts;
 }
+
 
 export function getLinksMapping() {
   const linksMapping = new Map<string, string[]>();
