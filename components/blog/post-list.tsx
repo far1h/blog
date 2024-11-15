@@ -11,29 +11,42 @@ type Props = {
   quotes: Post[]; // Array of quotes
 };
 
+// Utility function to shuffle an array
+function shuffleArray(array: any[]) {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+
 function PostList({ posts, pageType, quotes }: Props) {
   const { theme } = useTheme(); // Use theme context
-  const [randomQuote, setRandomQuote] = useState<Post | null>(null);
+  const [shuffledQuotes, setShuffledQuotes] = useState<Post[]>([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [fade, setFade] = useState(false); // For fade-in animation
 
-  // Cycle through quotes every 5 seconds
+  // Shuffle quotes and cycle through them
   useEffect(() => {
     if (quotes.length > 0) {
-      let index = Math.floor(Math.random() * quotes.length);
-      setRandomQuote(quotes[index]);
+      const shuffled = shuffleArray(quotes);
+      setShuffledQuotes(shuffled);
+      setCurrentIndex(0);
 
       const interval = setInterval(() => {
         setFade(true); // Trigger fade-out
         setTimeout(() => {
-          index = (index + 1) % quotes.length; // Cycle through quotes
-          setRandomQuote(quotes[index]);
+          setCurrentIndex((prevIndex) => (prevIndex + 1) % shuffled.length); // Move to the next quote
           setFade(false); // Trigger fade-in
         }, 500); // Duration of fade-out
-      }, 10000); // Update every 5 seconds
+      }, 10000); // Update every 10 seconds
 
       return () => clearInterval(interval); // Cleanup on unmount
     }
   }, [quotes]);
+
+  const currentQuote = shuffledQuotes[currentIndex];
 
   return (
     <section>
@@ -41,7 +54,7 @@ function PostList({ posts, pageType, quotes }: Props) {
         <div className="pt-32 pb-12 md:pt-40 md:pb-20">
 
           {/* Hero Section for Random Quote */}
-          {randomQuote && (
+          {currentQuote && (
             <div
               className={`flex flex-col items-center justify-center text-center mb-20 transition-opacity duration-500 ${
                 fade ? 'opacity-0' : 'opacity-100'
@@ -56,13 +69,13 @@ function PostList({ posts, pageType, quotes }: Props) {
                 }`}
               >
                 <Link
-                  href={`/${randomQuote.slug}`}
+                  href={`/${currentQuote.slug}`}
                   className="hover:underline text-blue-600 dark:text-blue-400"
                 >
-                  "{randomQuote.title}"
+                  "{currentQuote.title}"
                 </Link>
               </h2>
-              {randomQuote.name && (
+              {currentQuote.name && (
                 <p
                   className={`mt-2 text-sm uppercase ${
                     theme === 'dark'
@@ -70,7 +83,7 @@ function PostList({ posts, pageType, quotes }: Props) {
                       : 'text-gray-600'
                   }`}
                 >
-                  {randomQuote.name}
+                  {currentQuote.name}
                 </p>
               )}
             </div>
