@@ -132,3 +132,48 @@ export function updateMarkdownLinks(markdown: string, currSlug: string) {
   });
   return markdown
 }
+
+
+export function getAllReadingPosts(fields: string[] = []) {
+  // Define the reading directory path
+  const readingDir = path.join(mdDir, 'reading');
+
+  // Check if the reading directory exists
+  if (!fs.existsSync(readingDir)) {
+    console.warn(`Reading directory (${readingDir}) does not exist.`);
+    return [];
+  }
+
+  // Get all files within the /reading directory recursively
+  const files = getFilesRecursively(readingDir, /\.md$/);
+
+  // Process files into posts
+  const posts = files
+    .map((slug) => {
+      const realSlug = path.join('reading', slug); // Maintain the correct relative slug
+      const post = getPostBySlug(realSlug, fields);
+      return post;
+    })
+    .sort((post1, post2) => {
+      const date1 = post1.date ? new Date(post1.date) : null;
+      const date2 = post2.date ? new Date(post2.date) : null;
+
+      // Sort posts with dates in descending order
+      if (date1 && date2) {
+        return date2.getTime() - date1.getTime();
+      }
+
+      // Posts with dates come first
+      if (date1 && !date2) {
+        return -1;
+      }
+      if (!date1 && date2) {
+        return 1;
+      }
+
+      // Keep original order for posts without dates
+      return 0;
+    });
+
+  return posts;
+}

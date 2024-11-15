@@ -1,17 +1,16 @@
 import React from 'react';
-
-import PostPreview from '../post/post-preview'
-import type Post from '../../interfaces/post'
-import PopularPosts from './popular-posts'
-import PreviewLink from '../misc/preview-link';
+import PostPreview from '../post/post-preview';
+import type Post from '../../interfaces/post';
+import PopularPosts from './popular-posts';
 import { useTheme } from '../contexts/ThemeContext';
 
 type Props = {
-  posts: Post[]
-}
+  posts: Post[];
+  pageType?: string; // New prop to differentiate between pages
+};
 
-function PostList({ posts }: Props) {
-    const { theme } = useTheme(); // Use theme context
+function PostList({ posts, pageType }: Props) {
+  const { theme } = useTheme(); // Use theme context
 
   return (
     <section>
@@ -20,7 +19,9 @@ function PostList({ posts }: Props) {
 
           {/* Page header */}
           <div className="max-w-3xl pb-12 md:pb-20 text-center md:text-left">
-            <h1 className="h1 mb-4 px-4">Explore my blog</h1>
+            <h1 className="h1 mb-4 px-4">
+              {pageType === 'reading' ? '📚 Explore my reading notes' : '🗒️ Explore my blog'}
+            </h1>
           </div>
 
           {/* Main content */}
