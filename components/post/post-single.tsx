@@ -39,7 +39,9 @@ function PostSingle({ title, date, author, content, backlinks }: Props) {
                 data-sticky-container
               >
                 {/* Main content */}
-                <div className="max-w-2xl pb-8">
+                <div className="max-w-2xl pb-8"
+                  style={{ minWidth: "40rem" }}
+                  >
                   {author || date ? (
                     <>
                       <PostMeta author={author} date={date} />
