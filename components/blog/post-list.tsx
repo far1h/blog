@@ -27,7 +27,7 @@ function PostList({ posts, pageType, quotes }: Props) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [fade, setFade] = useState(false); // For fade-in animation
 
-  // Shuffle quotes and cycle through them
+  // Shuffle quotes on initial render
   useEffect(() => {
     if (quotes.length > 0) {
       const shuffled = shuffleArray(quotes);
@@ -35,6 +35,15 @@ function PostList({ posts, pageType, quotes }: Props) {
       setCurrentIndex(0);
     }
   }, [quotes]);
+
+  // Automatic cycling through quotes
+  useEffect(() => {
+    const interval = setInterval(() => {
+      handleNext();
+    }, 10000); // Automatically move to the next quote every 10 seconds
+
+    return () => clearInterval(interval); // Cleanup on unmount
+  }, [shuffledQuotes]);
 
   // Handle next and previous buttons
   const handleNext = () => {
