@@ -35,7 +35,7 @@ const Header = () => {
           <Link
             href="https://far1h.github.io/portfolio-mac-os/"
             aria-label="Portfolio"
-            className="mr-4 text-2xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition duration-150 ease-in-out"
+            className="mr-4 text-2xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
           >
             <FaLaptop />
           </Link>

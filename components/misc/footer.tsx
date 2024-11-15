@@ -23,6 +23,11 @@ const Footer = () => {
                 About Me
               </Link>
             </li>
+            <li>
+              <Link href="/reading" className="hover:text-gray-900 dark:hover:text-white transition duration-150">
+                Reading
+              </Link>
+            </li>
           </ul>
 
           {/* Social Links Section */}
