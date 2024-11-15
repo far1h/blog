@@ -43,7 +43,7 @@ function PostList({ posts, pageType, quotes }: Props) {
           {/* Hero Section for Random Quote */}
           {randomQuote && (
             <div
-              className={`flex items-center justify-center text-center mb-20 transition-opacity duration-500 ${
+              className={`flex flex-col items-center justify-center text-center mb-20 transition-opacity duration-500 ${
                 fade ? 'opacity-0' : 'opacity-100'
               }`}
               style={{ minHeight: '6rem' }} // Reserve space for the quote
@@ -62,6 +62,17 @@ function PostList({ posts, pageType, quotes }: Props) {
                   "{randomQuote.title}"
                 </Link>
               </h2>
+              {randomQuote.name && (
+                <p
+                  className={`mt-2 text-sm uppercase ${
+                    theme === 'dark'
+                      ? 'text-gray-400'
+                      : 'text-gray-600'
+                  }`}
+                >
+                  {randomQuote.name}
+                </p>
+              )}
             </div>
           )}
 

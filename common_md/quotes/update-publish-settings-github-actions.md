@@ -1,5 +1,6 @@
 ---
 title: Update the Publish Settings
+name: "Matthew Wong"
 ---
 
 There are two things you can modify in the workflow. The publish directory and the blog repository.

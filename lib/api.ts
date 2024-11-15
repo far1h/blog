@@ -7,28 +7,31 @@ import { getMDExcerpt } from './markdownToHtml'
 const mdDir = path.join(process.cwd(), process.env.COMMON_MD_DIR)
 
 export function getPostBySlug(slug: string, fields: string[] = []) {
-  const realSlug = slug.replace(/\.md(?:#[^\)]*)?$/, '')
-  const fullPath = path.join(mdDir, `${realSlug}.md`)
+  const realSlug = slug.replace(/\.md(?:#[^\)]*)?$/, '');
+  const fullPath = path.join(mdDir, `${realSlug}.md`);
   const data = parseFileToObj(fullPath);
 
   type Items = {
-    [key: string]: string
-  }
+    [key: string]: string;
+  };
 
-  const items: Items = {}
+  const items: Items = {};
 
   // Ensure only the minimal needed data is exposed
   fields.forEach((field) => {
     if (field === 'slug') {
-      items[field] = realSlug
+      items[field] = realSlug;
     }
 
     if (typeof data[field] !== 'undefined') {
-      items[field] = data[field]
+      items[field] = data[field];
     }
-  })
-  return items
+  });
+
+  console.log(`Post data for slug ${realSlug}:`, items); // Debugging
+  return items;
 }
+
 
 function parseFileToObj(pathToObj: string) {
   const fileContents = fs.readFileSync(pathToObj, 'utf8')
@@ -39,6 +42,9 @@ function parseFileToObj(pathToObj: string) {
   // modify obj
   if (typeof data['excerpt'] === 'undefined') {
     data['excerpt'] = getMDExcerpt(content, 500);
+  }
+  if (typeof data['name'] !== 'undefined') {
+    data['name'] = data['name'];
   }
   if (typeof data['title'] === 'undefined') {
     data['title'] = decodeURI(path.basename(pathToObj, '.md'))
@@ -179,35 +185,29 @@ export function getAllReadingPosts(fields: string[] = []) {
 }
 
 export function getAllQuotePosts(fields: string[] = []) {
-  // Define the quotes directory path
   const quotesDir = path.join(mdDir, 'quotes');
 
-  // Check if the quotes directory exists
   if (!fs.existsSync(quotesDir)) {
     console.warn(`Quotes directory (${quotesDir}) does not exist.`);
     return [];
   }
 
-  // Get all files within the /quotes directory recursively
   const files = getFilesRecursively(quotesDir, /\.md$/);
 
-  // Process files into posts
   const posts = files
     .map((slug) => {
-      const realSlug = path.join('quotes', slug); // Maintain the correct relative slug
-      const post = getPostBySlug(realSlug, fields);
+      const realSlug = path.join('quotes', slug);
+      const post = getPostBySlug(realSlug, [...fields, 'name']); // Include 'name'
+      console.log('Processed quote post:', post); // Debugging
       return post;
     })
     .sort((post1, post2) => {
       const date1 = post1.date ? new Date(post1.date) : null;
       const date2 = post2.date ? new Date(post2.date) : null;
 
-      // Sort posts with dates in descending order
       if (date1 && date2) {
         return date2.getTime() - date1.getTime();
       }
-
-      // Posts with dates come first
       if (date1 && !date2) {
         return -1;
       }
@@ -215,7 +215,6 @@ export function getAllQuotePosts(fields: string[] = []) {
         return 1;
       }
 
-      // Keep original order for posts without dates
       return 0;
     });
 
