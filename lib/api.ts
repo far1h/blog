@@ -28,10 +28,8 @@ export function getPostBySlug(slug: string, fields: string[] = []) {
     }
   });
 
-  console.log(`Post data for slug ${realSlug}:`, items); // Debugging
   return items;
 }
-
 
 function parseFileToObj(pathToObj: string) {
   const fileContents = fs.readFileSync(pathToObj, 'utf8')
@@ -198,7 +196,6 @@ export function getAllQuotePosts(fields: string[] = []) {
     .map((slug) => {
       const realSlug = path.join('quotes', slug);
       const post = getPostBySlug(realSlug, [...fields, 'name']); // Include 'name'
-      console.log('Processed quote post:', post); // Debugging
       return post;
     })
     .sort((post1, post2) => {
