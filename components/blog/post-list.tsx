@@ -29,7 +29,7 @@ function PostList({ posts, pageType, quotes }: Props) {
           setRandomQuote(quotes[index]);
           setFade(false); // Trigger fade-in
         }, 500); // Duration of fade-out
-      }, 5000); // Update every 5 seconds
+      }, 10000); // Update every 5 seconds
 
       return () => clearInterval(interval); // Cleanup on unmount
     }
