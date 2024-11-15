@@ -1,4 +1,4 @@
-import { getAllPosts } from '../../lib/api';
+import { getAllPosts, getAllQuotePosts } from '../../lib/api'; // Include quotes API
 import Post from '../../interfaces/post';
 import PostList from '../../components/blog/post-list';
 import Pagination from '../../components/blog/pagination';
@@ -8,13 +8,14 @@ type Props = {
   posts: Post[];
   pid: number;
   maxPid: number;
+  quotes: Post[]; // Include quotes as part of props
 };
 
-export default function Index({ posts, pid, maxPid }: Props) {
+export default function Index({ posts, pid, maxPid, quotes }: Props) {
   return (
     <Layout>
       <section id="posts">
-        <PostList posts={posts || []} />
+        <PostList posts={posts || []} quotes={quotes || []} /> {/* Pass quotes */}
         <Pagination currPage={pid} maxPage={maxPid} />
       </section>
     </Layout>
@@ -22,11 +23,13 @@ export default function Index({ posts, pid, maxPid }: Props) {
 }
 
 const pageSize = 6;
+
 const filterPosts = (posts: any[]) => {
   return posts.sort((post1, post2) => (post1.date > post2.date ? -1 : 1));
 };
 
 export const getStaticProps = async ({ params }: { params: { pid: string } }) => {
+  // Fetch blog posts
   let posts = await getAllPosts([
     'title',
     'date',
@@ -37,13 +40,16 @@ export const getStaticProps = async ({ params }: { params: { pid: string } }) =>
   ]);
   posts = filterPosts(posts);
 
+  // Fetch quotes
+  const quotes = await getAllQuotePosts(['title', 'slug']); // Include relevant fields
+
   const pid = parseInt(params.pid, 10);
   const maxPid = Math.ceil(posts.length / pageSize);
   const start = (pid - 1) * pageSize;
   posts = posts.slice(start, start + pageSize);
 
   return {
-    props: { posts, pid, maxPid },
+    props: { posts, pid, maxPid, quotes },
   };
 };
 

@@ -177,3 +177,47 @@ export function getAllReadingPosts(fields: string[] = []) {
 
   return posts;
 }
+
+export function getAllQuotePosts(fields: string[] = []) {
+  // Define the quotes directory path
+  const quotesDir = path.join(mdDir, 'quotes');
+
+  // Check if the quotes directory exists
+  if (!fs.existsSync(quotesDir)) {
+    console.warn(`Quotes directory (${quotesDir}) does not exist.`);
+    return [];
+  }
+
+  // Get all files within the /quotes directory recursively
+  const files = getFilesRecursively(quotesDir, /\.md$/);
+
+  // Process files into posts
+  const posts = files
+    .map((slug) => {
+      const realSlug = path.join('quotes', slug); // Maintain the correct relative slug
+      const post = getPostBySlug(realSlug, fields);
+      return post;
+    })
+    .sort((post1, post2) => {
+      const date1 = post1.date ? new Date(post1.date) : null;
+      const date2 = post2.date ? new Date(post2.date) : null;
+
+      // Sort posts with dates in descending order
+      if (date1 && date2) {
+        return date2.getTime() - date1.getTime();
+      }
+
+      // Posts with dates come first
+      if (date1 && !date2) {
+        return -1;
+      }
+      if (!date1 && date2) {
+        return 1;
+      }
+
+      // Keep original order for posts without dates
+      return 0;
+    });
+
+  return posts;
+}

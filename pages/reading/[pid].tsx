@@ -1,4 +1,4 @@
-import { getAllReadingPosts } from '../../lib/api';
+import { getAllReadingPosts, getAllQuotePosts } from '../../lib/api';
 import Post from '../../interfaces/post';
 import PostList from '../../components/blog/post-list';
 import Pagination from '../../components/blog/pagination';
@@ -8,13 +8,14 @@ type Props = {
   posts: Post[];
   pid: number;
   maxPid: number;
+  quotes: Post[]; // Pass all quotes to the client
 };
 
-export default function Index({ posts, pid, maxPid }: Props) {
+export default function Index({ posts, pid, maxPid, quotes }: Props) {
   return (
     <Layout>
       <section id="reading-posts">
-        <PostList posts={posts || []} pageType="reading" />
+        <PostList posts={posts || []} pageType="reading" quotes={quotes} />
         <Pagination currPage={pid} maxPage={maxPid} />
       </section>
     </Layout>
@@ -24,7 +25,7 @@ export default function Index({ posts, pid, maxPid }: Props) {
 const pageSize = 6;
 
 export const getStaticProps = async ({ params }: { params: { pid: string } }) => {
-  let posts = await getAllReadingPosts([
+  const posts = getAllReadingPosts([
     'title',
     'date',
     'slug',
@@ -33,18 +34,20 @@ export const getStaticProps = async ({ params }: { params: { pid: string } }) =>
     'excerpt',
   ]);
 
+  const quotes = getAllQuotePosts(['title', 'slug']); // Fetch all quotes
+
   const pid = parseInt(params.pid, 10);
   const maxPid = Math.ceil(posts.length / pageSize);
   const start = (pid - 1) * pageSize;
-  posts = posts.slice(start, start + pageSize);
+  const paginatedPosts = posts.slice(start, start + pageSize);
 
   return {
-    props: { posts, pid, maxPid },
+    props: { posts: paginatedPosts, pid, maxPid, quotes },
   };
 };
 
 export const getStaticPaths = async () => {
-  let posts = await getAllReadingPosts(['slug']);
+  const posts = getAllReadingPosts(['slug']);
 
   const paths = [];
   let pid = 1;

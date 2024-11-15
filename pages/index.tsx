@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { getAllPosts } from '../lib/api';
+import { getAllPosts, getAllQuotePosts } from '../lib/api'; // Import getAllQuotePosts
 import Post from '../interfaces/post';
 import PostList from '../components/blog/post-list';
 import Pagination from '../components/blog/pagination';
@@ -9,11 +9,12 @@ type Props = {
   posts: Post[];
   pid: number;
   maxPid: number;
+  quotes: Post[]; // Add quotes to props
 };
 
 const pageSize = 6;
 
-export default function Home({ posts, pid, maxPid }: Props) {
+export default function Home({ posts, pid, maxPid, quotes }: Props) {
   useEffect(() => {
     const handleSmoothScroll = (e: MouseEvent) => {
       e.preventDefault();
@@ -38,7 +39,7 @@ export default function Home({ posts, pid, maxPid }: Props) {
   return (
     <Layout>
       {/* Hero Section */}
-      {/* <section
+      <section
         className="relative flex flex-col items-center justify-center h-screen text-center bg-gradient-to-b from-blue-500 to-blue-700 text-white">
         <h1 className="text-5xl md:text-6xl font-extrabold mb-4">Welcome to My Blog</h1>
         <p className="text-lg md:text-xl font-medium mb-6">
@@ -50,11 +51,11 @@ export default function Home({ posts, pid, maxPid }: Props) {
         >
           Start Exploring
         </a>
-      </section> */}
+      </section>
 
       {/* Posts Section */}
       <section id="posts">
-        <PostList posts={posts || []} />
+        <PostList posts={posts || []} quotes={quotes || []} pageType="home" />
         <Pagination currPage={pid} maxPage={maxPid} />
       </section>
     </Layout>
@@ -66,6 +67,7 @@ const filterPosts = (posts: any[]) => {
 };
 
 export const getStaticProps = async () => {
+  // Fetch posts
   let posts = await getAllPosts([
     'title',
     'date',
@@ -76,12 +78,15 @@ export const getStaticProps = async () => {
   ]);
   posts = filterPosts(posts);
 
+  // Fetch quotes
+  const quotes = await getAllQuotePosts(['title', 'slug']); // Fetch quotes for random display
+
   const pid = 1; // Hardcoded for homepage
   const maxPid = Math.ceil(posts.length / pageSize); // Calculate total pages
   const start = (pid - 1) * pageSize; // Calculate starting index
   posts = posts.slice(start, start + pageSize); // Paginate posts
 
   return {
-    props: { posts, pid, maxPid },
+    props: { posts, pid, maxPid, quotes },
   };
 };
