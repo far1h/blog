@@ -33,18 +33,27 @@ function PostList({ posts, pageType, quotes }: Props) {
       const shuffled = shuffleArray(quotes);
       setShuffledQuotes(shuffled);
       setCurrentIndex(0);
-
-      const interval = setInterval(() => {
-        setFade(true); // Trigger fade-out
-        setTimeout(() => {
-          setCurrentIndex((prevIndex) => (prevIndex + 1) % shuffled.length); // Move to the next quote
-          setFade(false); // Trigger fade-in
-        }, 500); // Duration of fade-out
-      }, 10000); // Update every 10 seconds
-
-      return () => clearInterval(interval); // Cleanup on unmount
     }
   }, [quotes]);
+
+  // Handle next and previous buttons
+  const handleNext = () => {
+    setFade(true);
+    setTimeout(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % shuffledQuotes.length); // Move to the next quote
+      setFade(false);
+    }, 500); // Fade duration
+  };
+
+  const handlePrev = () => {
+    setFade(true);
+    setTimeout(() => {
+      setCurrentIndex((prevIndex) =>
+        prevIndex === 0 ? shuffledQuotes.length - 1 : prevIndex - 1
+      ); // Move to the previous quote
+      setFade(false);
+    }, 500); // Fade duration
+  };
 
   const currentQuote = shuffledQuotes[currentIndex];
 
@@ -56,36 +65,73 @@ function PostList({ posts, pageType, quotes }: Props) {
           {/* Hero Section for Random Quote */}
           {currentQuote && (
             <div
-              className={`flex flex-col items-center justify-center text-center mb-20 transition-opacity duration-500 ${
+              className={`flex flex-col items-center text-center mb-20 transition-opacity duration-500 ${
                 fade ? 'opacity-0' : 'opacity-100'
               }`}
               style={{ minHeight: '6rem' }} // Reserve space for the quote
             >
-              <h2
-                className={`text-3xl italic font-bold ${
-                  theme === 'dark'
-                    ? 'text-gray-200'
-                    : 'text-gray-800'
-                }`}
-              >
-                <Link
-                  href={`/${currentQuote.slug}`}
-                  className="hover:underline text-blue-600 dark:text-blue-400"
+              <div className="flex items-center justify-center space-x-4">
+                {/* Previous Button */}
+                <button
+                  onClick={handlePrev}
+                  aria-label="Previous Quote"
+                  className="text-gray-400 dark:text-gray-500 hover:text-link-light dark:hover:text-link-dark transition"
                 >
-                  "{currentQuote.title}"
-                </Link>
-              </h2>
-              {currentQuote.name && (
-                <p
-                  className={`mt-2 text-sm uppercase ${
-                    theme === 'dark'
-                      ? 'text-gray-400'
-                      : 'text-gray-600'
-                  }`}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-6 h-6"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                  </svg>
+                </button>
+
+                {/* Quote Content */}
+                <div>
+                  <h2
+                    className={`text-3xl italic font-bold ${
+                      theme === 'dark' ? 'text-gray-200' : 'text-gray-800'
+                    }`}
+                  >
+                    <Link
+                      href={`/${currentQuote.slug}`}
+                      className="hover:underline text-link-light dark:text-link-dark"
+                    >
+                      "{currentQuote.title}"
+                    </Link>
+                  </h2>
+                  {currentQuote.name && (
+                    <p
+                      className={`mt-2 text-sm uppercase ${
+                        theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
+                      }`}
+                    >
+                      {currentQuote.name}
+                    </p>
+                  )}
+                </div>
+
+                {/* Next Button */}
+                <button
+                  onClick={handleNext}
+                  aria-label="Next Quote"
+                  className="text-gray-400 dark:text-gray-500 hover:text-link-light dark:hover:text-link-dark transition"
                 >
-                  {currentQuote.name}
-                </p>
-              )}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-6 h-6"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+              </div>
             </div>
           )}
 
