@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
 import PostPreview from '../post/post-preview';
 import type Post from '../../interfaces/post';
@@ -26,6 +26,7 @@ function PostList({ posts, pageType, quotes }: Props) {
   const [shuffledQuotes, setShuffledQuotes] = useState<Post[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [fade, setFade] = useState(false); // For fade-in animation
+  const timerRef = useRef<NodeJS.Timeout | null>(null); // Timer reference
 
   // Shuffle quotes on initial render
   useEffect(() => {
@@ -36,22 +37,29 @@ function PostList({ posts, pageType, quotes }: Props) {
     }
   }, [quotes]);
 
-  // Automatic cycling through quotes
-  useEffect(() => {
-    const interval = setInterval(() => {
+  // Function to start or restart the automatic timer
+  const startTimer = () => {
+    if (timerRef.current) clearInterval(timerRef.current); // Clear existing timer
+    timerRef.current = setInterval(() => {
       handleNext();
     }, 10000); // Automatically move to the next quote every 10 seconds
+  };
 
-    return () => clearInterval(interval); // Cleanup on unmount
+  // Start the timer on component mount
+  useEffect(() => {
+    startTimer();
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current); // Cleanup on unmount
+    };
   }, [shuffledQuotes]);
 
-  // Handle next and previous buttons
   const handleNext = () => {
     setFade(true);
     setTimeout(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % shuffledQuotes.length); // Move to the next quote
       setFade(false);
     }, 500); // Fade duration
+    startTimer(); // Restart the timer on manual action
   };
 
   const handlePrev = () => {
@@ -62,6 +70,7 @@ function PostList({ posts, pageType, quotes }: Props) {
       ); // Move to the previous quote
       setFade(false);
     }, 500); // Fade duration
+    startTimer(); // Restart the timer on manual action
   };
 
   const currentQuote = shuffledQuotes[currentIndex];
