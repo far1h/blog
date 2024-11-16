@@ -16,7 +16,7 @@ export default function Index({ posts, pid, maxPid, quotes }: Props) {
     <Layout>
       <section id="reading-posts">
         <PostList posts={posts || []} pageType="reading" quotes={quotes} />
-        <Pagination currPage={pid} maxPage={maxPid} />
+        <Pagination currPage={pid} maxPage={maxPid} pageType="reading" /> {/* Pass pageType */}
       </section>
     </Layout>
   );

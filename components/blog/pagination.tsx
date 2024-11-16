@@ -3,6 +3,7 @@ import { useTheme } from '../contexts/ThemeContext';
 type Props = {
   currPage: number;
   maxPage: number;
+  pageType?: string; // Add pageType prop to differentiate pages
 };
 
 function getPaginationArr(currPage: number, maxPage: number, numItems: number = 5) {
@@ -21,12 +22,12 @@ function getPaginationArr(currPage: number, maxPage: number, numItems: number = 
   return pageList;
 }
 
-function Pagination({ currPage, maxPage }: Props) {
+function Pagination({ currPage, maxPage, pageType }: Props) {
   const paginationArr = getPaginationArr(currPage, maxPage);
   const { theme } = useTheme();
 
   const baseClass = `border px-3 py-2 leading-tight`;
-  const lightModeClass = `bg-white  text-gray-500 hover:bg-gray-100 hover:text-gray-700`;
+  const lightModeClass = `bg-white text-gray-500 hover:bg-gray-100 hover:text-gray-700`;
   const darkModeClass = `bg-gray-800 border-gray-600 text-gray-400 hover:bg-gray-700 hover:text-gray-300`;
 
   const currentClass = `border-blue-200 bg-blue-100 text-blue-700`;
@@ -43,7 +44,7 @@ function Pagination({ currPage, maxPage }: Props) {
             </span>
           ) : (
             <a
-              href={`/posts/${currPage - 1}`}
+              href={`/${pageType || 'posts'}/${currPage - 1}`}
               className={`${baseClass} ${theme === 'dark' ? darkModeClass : lightModeClass} rounded-l-lg`}
             >
               Previous
@@ -60,7 +61,7 @@ function Pagination({ currPage, maxPage }: Props) {
               </span>
             ) : (
               <a
-                href={`/posts/${i}`}
+                href={`/${pageType || 'posts'}/${i}`}
                 className={`${baseClass} ${theme === 'dark' ? darkModeClass : lightModeClass}`}
               >
                 {i}
@@ -77,7 +78,7 @@ function Pagination({ currPage, maxPage }: Props) {
             </span>
           ) : (
             <a
-              href={`/posts/${currPage + 1}`}
+              href={`/${pageType || 'posts'}/${currPage + 1}`}
               className={`${baseClass} ${theme === 'dark' ? darkModeClass : lightModeClass} rounded-r-lg`}
             >
               Next
